@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-cute: 'Outfit', sans-serif;
+  --font-toy-title: 'Outfit', sans-serif;
+  --font-journal: 'Inter', sans-serif;
+  --font-script: 'Outfit', sans-serif;
+
+  --color-primary-pink: #FFB6D9;
+  --color-soft-pink: #FFD6E8;
+  --color-hot-pink: #FF69B4;
+  --color-lavender-accent: #E9D5FF;
+  --color-cream-white: #FFF9F5;
+  --color-light-peach: #FFE5EC;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-sparkle: sparkle 2s ease-in-out infinite;
+  --animate-pulse-heart: pulseHeart 1.5s infinite;
+  --animate-bow-wiggle: bowWiggle 3s ease-in-out infinite;
+}
+
+/* Custom animations keyframes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(15deg);
+  }
+}
+
+@keyframes pulseHeart {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(255, 105, 180, 0.4));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.7));
+  }
+}
+
+@keyframes bowWiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 6s linear infinite;
+}
+
+/* Base custom resets */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #FFE5EC;
+  color: #6D4C57;
+  font-family: 'Inter', 'Outfit', sans-serif;
+  overflow-x: hidden;
+}
+
+.keep-toy-font {
+  font-family: 'Outfit', sans-serif !important;
+}
+
+/* Custom Scrollbar for container elements */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF9F5;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #FFB6D9;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF69B4;
+}
+
+/* Notebook paper aesthetic lines */
+.notebook-lines {
+  background-color: #FFF9F5;
+  background-image: linear-gradient(rgba(255, 182, 217, 0.25) 1px, transparent 1px);
+  background-size: 100% 2.2rem;
+  line-height: 2.2rem;
+}
+
+/* Elegant glass card panel */
+.glass-card {
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(24px) saturate(100%);
+  -webkit-backdrop-filter: blur(24px) saturate(100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(255, 105, 180, 0.01);
+}
+
+.glass-card-darker {
+  background: rgba(255, 214, 232, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255, 182, 217, 0.4);
+  box-shadow: 0 8px 24px -8px rgba(255, 105, 180, 0.15);
+}
+
+/* Cute coquette details */
+.ribbon-divider {
+  position: relative;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ribbon-divider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FFB6D9 20%, #FFB6D9 80%, transparent);
+}
+
+/* Polaroid image slots styling */
+.polaroid-card {
+  background: #FFF9F5;
+  padding: 10px 10px 24px 10px;
+  box-shadow: 0 8px 24px rgba(109, 76, 87, 0.08);
+  border: 1px solid rgba(255, 182, 217, 0.25);
+  border-radius: 4px;
+  transform: rotate(-1.5deg);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.polaroid-card:hover {
+  transform: scale(1.05) rotate(1deg);
+  box-shadow: 0 12px 30px rgba(255, 105, 180, 0.15);
+  z-index: 10;
+}
+
+/* Sticker items */
+.sticker {
+  filter: drop-shadow(0 3px 5px rgba(255, 105, 180, 0.15));
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+.sticker:hover {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Heart-shaped progress ring */
+.heart-progress-mask {
+  mask-image: radial-gradient(circle, black 50%, transparent 100%);
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
