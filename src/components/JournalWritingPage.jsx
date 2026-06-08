@@ -298,7 +298,7 @@ export default function JournalWritingPage({ onSave, isPlayingMusic, setIsPlayin
           {/* Stickers Tray */}
           <div className="flex flex-col gap-1.5">
             <span className="text-[10px] font-black text-[#6D4C57]/60 uppercase tracking-wider">Stamp Stickers</span>
-            <div className="grid grid-cols-6 gap-2">
+            <div className="grid grid-cols-4 min-[370px]:grid-cols-6 gap-2">
               {STICKERS.map((s) => (
                 <button
                   key={s.label}

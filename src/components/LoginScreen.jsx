@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Lock, Sparkles, Heart, ArrowRight, BookOpen, Key, AlertCircle, RefreshCw } from 'lucide-react';
 import Avatar from './Avatar';
+import FloatingHearts from './FloatingHearts';
 import { auth, db } from '../firebase';
 import { 
   signInWithEmailAndPassword, 
@@ -373,6 +374,19 @@ export default function LoginScreen({ onLogin }) {
     }
   };
 
+  // Typing heart trigger
+  const handleTypingHeart = (e) => {
+    const input = e.target;
+    const rect = input.getBoundingClientRect();
+    const x = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
+    const y = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
+    window.dispatchEvent(
+      new CustomEvent('spawn-cute-heart', {
+        detail: { count: 1, x, y, isBurst: true }
+      })
+    );
+  };
+
   // Stagger animation container config for form inputs
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -402,6 +416,7 @@ export default function LoginScreen({ onLogin }) {
     >
       {/* Background grid */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(#FFD6E8_1.5px,transparent_1.5px)] [background-size:32px_32px] opacity-45"></div>
+      <FloatingHearts />
 
       {/* Floating Animated Background Stickers */}
       {FLOATING_SHAPES.map((shape) => (
@@ -446,10 +461,10 @@ export default function LoginScreen({ onLogin }) {
           stiffness: 110,
           x: { duration: 0.4 }
         }}
-        className="w-full max-w-[430px] mx-4 pl-10 pr-6 sm:pl-14 sm:pr-8 py-8 bg-[#FFFBF7] border border-[#FFB6D9]/40 rounded-3xl shadow-[0_16px_40px_rgba(255,105,180,0.08)] relative z-10 flex flex-col items-center notebook-lines overflow-hidden"
+        className="w-full max-w-[430px] mx-2 min-[380px]:mx-4 pl-6 pr-6 min-[380px]:pl-10 min-[380px]:pr-6 sm:pl-14 sm:pr-8 py-6 min-[380px]:py-8 bg-[#FFFBF7] border border-[#FFB6D9]/40 rounded-3xl shadow-[0_16px_40px_rgba(255,105,180,0.08)] relative z-10 flex flex-col items-center notebook-lines overflow-hidden"
       >
         {/* Spiral Binder Rings on the Left Edge */}
-        <div className="absolute left-0 top-6 bottom-6 flex flex-col justify-between items-center w-6 z-20 pointer-events-none">
+        <div className="hidden min-[380px]:flex absolute left-0 top-6 bottom-6 flex-col justify-between items-center w-6 z-20 pointer-events-none">
           {Array.from({ length: 9 }).map((_, i) => (
             <div key={i} className="relative w-full h-4 flex items-center justify-center">
               <div className="w-2.5 h-2.5 rounded-full bg-[#FFE5EC] shadow-inner border border-[#FFB6D9]/30" />
@@ -459,7 +474,7 @@ export default function LoginScreen({ onLogin }) {
         </div>
 
         {/* Vertical Red Margin Line */}
-        <div className="absolute left-10 top-0 bottom-0 w-0.5 bg-red-300/40 z-10" />
+        <div className="absolute left-6 min-[380px]:left-10 top-0 bottom-0 w-0.5 bg-red-300/40 z-10" />
 
         {/* Header section */}
         <div className="flex flex-col items-center gap-1 mt-3 mb-6 text-center w-full">
@@ -591,7 +606,10 @@ export default function LoginScreen({ onLogin }) {
                     type="text"
                     placeholder="e.g. Esha 🧸"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                      handleTypingHeart(e);
+                    }}
                     maxLength={15}
                     onFocus={() => setUserFocused(true)}
                     onBlur={() => setUserFocused(false)}
@@ -624,7 +642,11 @@ export default function LoginScreen({ onLogin }) {
                     maxLength={6}
                     placeholder="••••"
                     value={pin}
-                    onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, '');
+                      setPin(val);
+                      handleTypingHeart(e);
+                    }}
                     onFocus={() => setPinFocused(true)}
                     onBlur={() => setPinFocused(false)}
                     className="w-full h-10 px-1.5 bg-transparent text-center tracking-[0.6em] font-mono text-lg font-bold text-[#6D4C57] placeholder-[#6D4C57]/30 outline-none transition-all"
