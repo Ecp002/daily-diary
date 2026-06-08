@@ -139,8 +139,7 @@ export default function App() {
       const uid = auth.currentUser.uid;
       const q = query(
         collection(db, "entries"),
-        where("userId", "==", uid),
-        orderBy("date", "desc")
+        where("userId", "==", uid)
       );
 
       unsubscribeEntries = onSnapshot(q, (snapshot) => {
@@ -161,6 +160,8 @@ export default function App() {
             photo
           });
         });
+        // Sort client-side by date descending
+        loadedEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
         setEntries(loadedEntries);
         // Cache in user-specific local storage
         localStorage.setItem(`pink_whisper_entries_${uid}`, JSON.stringify(loadedEntries));

@@ -17,7 +17,6 @@ const PREDEFINED_AVATARS = [
 export default function EditAccountModal({ isOpen, onClose, userProfile, onSave, onLogout }) {
   const [username, setUsername] = useState('');
   const [streak, setStreak] = useState(1);
-  const [pin, setPin] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState('');
   const [customAvatar, setCustomAvatar] = useState('');
   const [error, setError] = useState('');
@@ -37,9 +36,6 @@ export default function EditAccountModal({ isOpen, onClose, userProfile, onSave,
       } else {
         setCustomAvatar('');
       }
-
-      const storedPin = localStorage.getItem('pink_whisper_pin') || '1111';
-      setPin(storedPin);
       setError('');
     }
   }, [isOpen, userProfile]);
@@ -63,15 +59,10 @@ export default function EditAccountModal({ isOpen, onClose, userProfile, onSave,
       setError('Username cannot be empty! 🌸');
       return;
     }
-    if (pin.length < 4) {
-      setError('PIN code must be at least 4 digits! 🔒');
-      return;
-    }
 
     // Save to localStorage
     localStorage.setItem('pink_whisper_username', username.trim());
     localStorage.setItem('pink_whisper_pfp', selectedAvatar);
-    localStorage.setItem('pink_whisper_pin', pin);
     localStorage.setItem('pink_whisper_streak', streak.toString());
 
     // Trigger save callback to update parent state
@@ -195,21 +186,6 @@ export default function EditAccountModal({ isOpen, onClose, userProfile, onSave,
                 />
               </div>
 
-              {/* PIN Code change option */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-black text-[#6D4C57]/70 flex items-center gap-1.5">
-                  <Key size={13} className="text-[#FF69B4]" />
-                  <span>Update Diary PIN (4-6 digits)</span>
-                </label>
-                <input
-                  type="text"
-                  maxLength={6}
-                  value={pin}
-                  onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
-                  className="w-full h-10 px-3.5 rounded-xl bg-white border border-[#FFB6D9]/20 focus:border-[#FF69B4] text-xs font-mono font-semibold tracking-wider text-[#6D4C57] outline-none transition-all"
-                  placeholder="e.g. 1111"
-                />
-              </div>
             </div>
 
             {/* Error Message */}
